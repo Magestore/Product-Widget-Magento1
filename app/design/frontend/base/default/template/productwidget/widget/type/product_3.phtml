@@ -1,0 +1,210 @@
+<?php
+if (!$this->getWidget()->validateProduct()) {
+    echo $this->__("Please check again Product SKU.");
+    die();
+}
+$products = $this->getProducts();
+?>
+
+<script src="<?php echo Mage::getBaseUrl('js') ?>magestore/productwidget/bxslider/jquery.bxslider.js"></script>
+<link href="<?php echo Mage::getBaseUrl('js') ?>magestore/productwidget/bxslider/jquery.bxslider.css" rel="stylesheet"/>
+
+<div id="review-content">
+    <ul class="slider">
+        <?php foreach ($products as $product): ?>
+            <?php
+            $productImage = $this->getProductImage($product);
+            $productPrice = $this->getProductPrice($product);
+            $buttonText = $this->getButtonText();
+            ?>
+            <li class="slider-item">
+                <span class="widget_link"
+                      style="display:none !important;"><?php echo $this->getWidget()->getWidgetLink($product) ?></span>
+
+                <div class="image clickable">
+                    <center style="height:100%;">
+                        <img id="product-image" src="<?php echo $productImage ?>"
+                             alt="<?php echo $product->getName() ?>">
+                    </center>
+                </div>
+                <div class="title-wrapper">
+                    <h2 class="title clickable">
+                        <?php echo $product->getName() ?>
+                    </h2>
+                </div>
+                <div class="content">
+                    <?php if ($this->getExtra('hide_description') === null): ?>
+                        <div class="description">
+                            <p class="descriptions"><?php echo $this->getDescription($product) ?></p>
+                        </div>
+                    <?php endif ?>
+                    <div class="addto">
+                        <?php if ($this->showPrice($product)): ?>
+                            <div class="price">
+                                <p class="new-price">
+                                    <?php echo $this->formatPrice($product->getFinalPrice()) ?>
+                                </p>
+                                <?php if ($product->getSpecialPrice()): ?>
+                                    <p style="display: inline-block">
+                                    <span
+                                        class="old-price"><?php echo $this->formatPrice($product->getPrice()) ?></span>
+                                    <span class="special-offer">
+                                        <?php echo $this->getSpecialOffer($product) ?>
+                                    </span>
+                                    </p>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <?php if ($this->getExtra('use_button')): ?>
+                        <div class="button-buy">
+                            <a class="widget-button" target="_blank"
+                               href="<?php echo $this->getWidget()->getButtonLink($product) ?>"><?php echo $buttonText ?></a>
+                        </div>
+                    <?php endif ?>
+                </div>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('.clickable').click(function (event) {
+            var url = $(this).closest('.slider-item').find('.widget_link').text();
+            window.open(url + '?domain=' + encodeURIComponent(domain), '_blank');
+        });
+        $('.widget-button').each(function (index, el) {
+            var h = $(el).prop('href');
+            $(el).prop('href', h + 'domain/' + encodeURIComponent(domain));
+        });
+        <?php if(!$this->getExtra('auto_height')): ?>
+        $('#review-content .slider li').each(function (index, el) {
+            var _this = $(el);
+            <?php echo "_this.find('.image img').height($('#review-content').outerHeight()
+                        - _this.find('.title-wrapper').outerHeight()
+                        - _this.find('.content').outerHeight() - 20);" ?>
+        });
+        <?php endif; ?>
+
+        $('#review-content').hover(function () {
+            $('.bx-controls-direction').fadeIn();
+        }, function () {
+            $('.bx-controls-direction').fadeOut();
+        });
+        $('.slider').bxSlider({
+            mode: 'fade',
+            infiniteLoop: true,
+            speed: 1000,
+            auto: true,
+            controls: true,
+            pager: false,
+        });
+    });
+</script>
+
+
+<style type="text/css">
+    #review-content {
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+    #review-content .image{
+        width: 100%;
+    }
+    #review-content .slider .image img {
+        width: 100%;
+        height: 100%;
+        margin-top: 5px;
+    }
+
+    #review-content h2.title {
+        margin: 0;
+        text-align: center;
+        background-color: #<?php echo $this->getExtra('title_background') ?>;
+        font-size: 15px;
+        padding: 3px;
+        opacity: 0.7;
+        box-sizing: border-box;
+        color: #<?php echo $this->getExtra('title_color') ?>;
+        font-weight: bold;
+        width: 100%;
+    }
+
+    #review-content .content {
+        padding: 5px 20px;
+    }
+
+    #review-content .addto .price {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin: 5px 0px;
+        color: #<?php echo $this->getExtra('price_color') ?>;
+        overflow: auto;
+    }
+    .price .new-price{
+        padding: 3px 0px 0px;
+    }
+    .price .old-price {
+        display: inline-block;
+        font-size: 13px;
+        color: gray;
+        text-decoration: line-through;
+    }
+    .price .special-offer{
+        font-size: 13px;
+        color: #<?php echo $this->getExtra('price_color') ?>;
+    }
+
+    #review-content .descriptions {
+        color: #<?php echo $this->getExtra('description_color') ?>;
+        text-align: center;
+        font-size: 13px;
+    }
+
+    #review-content .button-buy {
+        clear: both;
+        text-align: center;
+    }
+
+    #review-content .widget-button {
+        background-color: #<?php echo $this->getExtra('button_color') ?>;
+        padding: 7px 50px;
+        text-transform: uppercase;
+        border-radius: 5px;
+        color: #<?php echo $this->getExtra('button_text_color') ?>;
+        text-decoration: none;
+    }
+
+    .bx-viewport {
+        background-color: #<?php echo $this->getExtra('background_color') ?> !important;
+        border: none;
+        box-shadow: none;
+        left: 0;
+        height: 100% !important;
+    }
+    .slider{
+        height: 100%;
+    }
+
+    .slider-item{
+        height: 100%;
+    }
+
+    .bx-wrapper .bx-controls-direction a {
+        opacity: 0.8;
+    }
+
+    .bx-wrapper {
+        position: static;
+        height: 100%;
+    }
+
+    #review-content .bx-controls-direction {
+        display: none
+    }
+</style>

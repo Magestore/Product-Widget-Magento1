@@ -1,0 +1,33 @@
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style=""><h3 class="icon-head head-adminhtml-report-detail"><?php echo $this->getHeaderText() ?></h3></td>
+            <td class="form-buttons"><button onclick="filterFormSubmit()"><?php echo Mage::helper('productwidget')->__('Show Report') ?></button></td>
+        </tr>
+    </table>
+</div>
+<div>
+    <?php echo $this->getChildHtml('form') ?>
+</div>
+<div>
+    <?php echo $this->getChildHtml('result') ?>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function filterFormSubmit() {
+        var filters = $$('#filter_form input', '#filter_form select');
+        var elements = [];
+        for(var i in filters){
+            if(filters[i].value && filters[i].value.length && !filters[i].disabled) {
+                filters[i].value = filters[i].value;
+                elements.push(filters[i]);
+            }
+        }
+        var validator  = new Validation('filter_form');
+        if (validator.validate()) {
+            setLocation('<?php echo $this->getUrl("*/*/*"); ?>filter/'+encode_base64(Form.serializeElements(elements))+'/');
+        }
+    }
+//]]>
+</script> 
+ 

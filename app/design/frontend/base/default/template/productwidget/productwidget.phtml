@@ -1,0 +1,54 @@
+<?php
+/**
+ * Magestore
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Magestore
+ * @package     Magestore_ProductWidget
+ * @copyright   Copyright (c) 2015 Magestore (http://www.magestore.com/)
+ * @license     http://www.magestore.com/license-agreement.html
+ */
+
+/**
+ * Productwidget template
+ *
+ * @see Magestore_ProductWidget_Block_Productwidget
+ */
+?>
+<?php
+$widget = $this->getWidget();
+$widgetId = Mage::helper('productwidget')->encode($widget->getId());
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript"
+            src="<?php echo $this->getJsUrl('magestore/productwidget/jquery-1.11.3.min.js') ?>"></script>
+    <link rel="stylesheet" href="<?php echo $this->getSkinUrl('magestore/productwidget/css/reset.css') ?>">
+    <link rel="stylesheet" href="<?php echo $this->getSkinUrl('magestore/productwidget/css/style.css') ?>">
+    <style type="text/css">
+        #review-content {height: 100%}
+        html,body{height: 100%;}
+    </style>
+    <script>
+        var domain = document.referrer.replace('https:','').replace('http:','').match(/^\/\/[^/]+/)[0].replace('//','');
+    </script>
+</head>
+<body>
+<!--<iframe style="display: none" src="-->
+<?php //echo $this->getUrl('productwidget/widget/countView', array('wid' => $widgetId)) ?><!-- "-->
+<!--        frameborder="0"></iframe>-->
+<?php echo $this->getWidgetHtml() ?>
+</body>
+</html>

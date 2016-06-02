@@ -1,0 +1,54 @@
+<?php 
+$data = $this->getWidgetReport();
+$rateData= $this->getWidgetRateReport();
+$filterParams = $this->getFilterParams();
+ ?>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script>google.load("visualization", "1.1", {packages:["bar",'line']});</script>
+
+<div id="line_report" style="width: 90%; height: 400px;"></div>
+<script type="text/javascript">
+setTimeout(function(){
+  var data = new google.visualization.DataTable();
+data.addColumn('string', '<?php echo strtoupper($filterParams["period_type"]) ?>');
+data.addColumn('number', '<?php echo $this->__("View") ?>');
+data.addColumn('number', '<?php echo $this->__("Click") ?>');
+data.addColumn('number', '<?php echo $this->__("Orders") ?>');
+data.addRows(JSON.parse('<?php echo $data?>'));
+
+var options = {
+  chart: {
+    title: '<?php echo $this->__("Widget Report") ?>',
+    subtitle: '<?php echo $this->__("View, Click, Orders") ?>',
+  },
+};
+
+var chart = new google.charts.Line(document.getElementById('line_report'));
+
+chart.draw(data, options);
+}, 1000);
+</script>
+
+<div id="line_rate_report" style="width:90%; height:400px;"></div>
+<script type="text/javascript">
+setTimeout(function(){
+  var data = new google.visualization.DataTable();
+data.addColumn('string', '<?php echo strtoupper($filterParams["period_type"]) ?>');
+data.addColumn('number', '<?php echo $this->__("Click/View") ?>');
+data.addColumn('number', '<?php echo $this->__("Order/View") ?>');
+data.addColumn('number', '<?php echo $this->__("Order/Click") ?>');
+data.addRows(JSON.parse('<?php echo $rateData?>'));
+
+var options = {
+  chart: {
+    title: '<?php echo $this->__("Rate Report") ?>',
+    subtitle: '<?php echo $this->__("Click/View, Order/View, Order/Click") ?>',
+  },
+};
+
+var chart = new google.charts.Line(document.getElementById('line_rate_report'));
+
+chart.draw(data, options);
+}, 2000);
+</script>

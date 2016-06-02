@@ -1,0 +1,27 @@
+<div class="preview-header" style="border: none">
+    <h3><?php echo $this->__("Preview Widget") ?></h3>
+    <p class="preview-note"><?php echo $this->__("You can preview what you have changed before saving it.") ?></p>
+</div>
+<script>
+    j(document).ready(function (){
+        var top = j('.preview-product').offset().top;
+        var left = j('.preview-product').offset().left - 10;
+        j(document).scroll(function () {
+            var scrollTop = j(document).scrollTop();
+            if (scrollTop > top) {
+                j('.preview-product').css({
+                    position: 'fixed',
+                    top: 40,
+                    left: left
+                });
+            }else{
+                j('.preview-product').css({
+                    position: 'static',
+                });
+            }
+        });
+    });
+</script>
+<div id="review" class="review">
+    <iframe src="" frameborder="0" scrolling="no"></iframe>
+</div>

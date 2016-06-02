@@ -1,0 +1,31 @@
+<?php
+$image = $this->getExtra('widget_image');
+if (!$image) {
+    $image = $this->getExtra('current_image');
+}
+if (!$this->getWidget()->validateProduct()) {
+    echo $this->__("Please check again Product SKU.");
+    die();
+}
+?>
+
+<script>
+    $(document).ready(function () {
+        $('.clickable').click(function (event) {
+            var url = '<?php echo $this->getWidget()->getWidgetLink() ?>';
+            window.open(url + '?domain=' + encodeURIComponent(window.location.host), '_blank');
+        });
+    });
+</script>
+<div id="review-content" style="" class="clickable">
+    <img style="width: 100%; height: 100%;"
+         src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA) . DS . $image ?>"
+         alt="<?php echo $this->getExtra('widget_name') ?>">
+
+    <div>
+
+        <style>
+            .clickable {
+                cursor: pointer;
+            }
+        </style>

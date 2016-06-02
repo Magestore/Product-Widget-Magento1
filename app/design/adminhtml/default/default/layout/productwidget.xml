@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magestore
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magestore
+ * @package     Magestore_ProductWidget
+ * @copyright   Copyright (c) 2015 Magestore (http://www.magestore.com/)
+ * @license     http://www.magestore.com/license-agreement.html
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_productwidget_widget_index>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/tinybox/style.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>tinybox/tinybox.js</script>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>magestore/productwidget/jquery-1.11.3.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>magestore/productwidget/backend.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>magestore/productwidget/ZeroClipboard.min.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="productwidget/adminhtml_widget" name="widget" />
+        </reference>
+    </adminhtml_productwidget_widget_index>
+
+    <adminhtml_productwidget_widget_edit>
+        <update handle="editor"/>
+        <reference name="head">
+            <action method="addItem">
+                <type>js</type>
+                <name>magestore/productwidget/jquery-1.11.3.min.js</name>
+            </action>
+            <action method="addItem">
+                <type>js</type>
+                <name>magestore/productwidget/backend.js</name>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/tinybox/style.css</stylesheet>
+            </action>
+            <action method="addJs">
+                <script>tinybox/tinybox.js</script>
+            </action>
+            <action method="addJs">
+                <script>magestore/productwidget/jscolor/jscolor.js</script>
+            </action>
+            <action method="addJs">
+                <script>magestore/productwidget/jqueryui/jquery-ui.min.js</script>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/magestore/productwidget/jquery-ui.min.css</stylesheet>
+            </action>
+            <action method="addCss">
+                <stylesheet>css/magestore/productwidget/style.css</stylesheet>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="productwidget/adminhtml_widget_edit" name="widget_form"></block>
+        </reference>
+        <reference name="left">
+            <block type="productwidget/adminhtml_widget_edit_tabs" name="widget_tabs" />
+        </reference>
+    </adminhtml_productwidget_widget_edit>
+    <adminhtml_productwidget_report_general>
+        <reference name="content">
+            <block type="productwidget/adminhtml_report_general" name="widget.report.general" template="productwidget/report/container.phtml">
+                <block type="productwidget/adminhtml_report_general_form" name="widget.report.general.form" as="form"></block>
+                <block type="productwidget/adminhtml_report_general_grid" name="widget.report.general.grid" as="result"></block>
+            </block>
+        </reference>
+    </adminhtml_productwidget_report_general>
+    <adminhtml_productwidget_report_widget>
+        <reference name="content">
+            <block type="productwidget/adminhtml_report_widget" name="widget.report.widget" template="productwidget/report/container.phtml">
+                <block type="productwidget/adminhtml_report_widget_form" name="widget.report.widget.form" as="form"></block>
+                <block type="productwidget/adminhtml_report_widget_result" name="widget.report.widget.result" as="result" template="productwidget/report/widget/result.phtml"></block>
+            </block>
+        </reference>
+    </adminhtml_productwidget_report_widget>
+    <adminhtml_productwidget_report_domain>
+        <reference name="content">
+            <block type="productwidget/adminhtml_report_domain" name="widget.report.domain" template="productwidget/report/container.phtml">
+                <block type="productwidget/adminhtml_report_domain_form" name="widget.report.domain.form" as="form"></block>
+                <block type="productwidget/adminhtml_report_domain_result" name="widget.report.domain.result" as="result" template="productwidget/report/domain/result.phtml"></block>
+            </block>
+        </reference>
+    </adminhtml_productwidget_report_domain>
+    <adminhtml_productwidget_transaction_index>
+        <reference name="content">
+            <block type="productwidget/adminhtml_transaction" name="widget.transaction"></block>
+        </reference>
+    </adminhtml_productwidget_transaction_index>
+</layout>

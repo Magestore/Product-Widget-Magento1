@@ -1,0 +1,235 @@
+<?php
+if (!$this->getWidget()->validateProduct()) {
+    echo $this->__("Please check again Product SKU.");
+    die();
+}
+$products = $this->getProducts();
+?>
+<script src="<?php echo Mage::getBaseUrl('js') ?>magestore/productwidget/bxslider/jquery.bxslider.js"></script>
+<link href="<?php echo Mage::getBaseUrl('js') ?>magestore/productwidget/bxslider/jquery.bxslider.css" rel="stylesheet"/>
+
+<div id="review-content">
+    <ul class="slider">
+        <?php foreach ($products as $product): ?>
+            <?php
+            $productImage = $this->getProductImage($product);
+            $productPrice = Mage::app()->getStore()->formatPrice($product->getFinalPrice());
+            $buttonText = $this->getButtonText();
+            ?>
+            <li class="slider-item">
+                <span class="widget_link"
+                      style="display:none !important;"><?php echo $this->getWidget()->getWidgetLink($product) ?></span>
+
+                <div class="content">
+                    <div class="image">
+                        <center style="height:100%;" class="clickable">
+                            <img id="product-image" src="<?php echo $productImage ?>"
+                                 alt="<?php echo $product->getName() ?>">
+                        </center>
+                        <h2 class="title clickable">
+                            <?php echo $product->getName() ?>
+                        </h2>
+
+                        <div class="addto">
+                            <?php if ($this->showPrice($product)): ?>
+                                <div class="price">
+                                    <?php echo $this->formatPrice($product->getFinalPrice()) ?>
+                                    <?php if ($product->getSpecialPrice()): ?>
+                                        <span class="old-price"
+                                              style="display: inline-block"><?php echo $this->formatPrice($product->getPrice()) ?></span>
+                                        <span class="special-offer"><?php echo $this->getSpecialOffer($product) ?></span>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ($this->getExtra('use_button')): ?>
+                                <div class="button-buy">
+                                    <a class="widget-button" target="_blank"
+                                       href="<?php echo $this->getWidget()->getButtonLink($product) ?>"><?php echo $buttonText ?></a>
+                                </div>
+                            <?php endif ?>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var refineDescription = function () {
+            var limitDes = "<?php echo Mage::helper('productwidget/config')->getLimitDescription() ?>";
+            limitDes = Number(limitDes);
+            if (isNaN(limitDes) || limitDes <= 0)return;
+            $('p.descriptions').each(function (index, el) {
+                var p = $(el);
+                var text = p.text();
+                p.text(text.substr(0, limitDes) + "...");
+            });
+        };
+        refineDescription();
+        $('.clickable').click(function (event) {
+            var url = $(this).closest('.slider-item').find('.widget_link').text();
+            window.open(url + '?domain=' + encodeURIComponent(domain), '_blank');
+        });
+        $('.widget-button').each(function (index, el) {
+            var h = $(el).prop('href');
+            $(el).prop('href', h + 'domain/' + encodeURIComponent(domain));
+        });
+        <?php if(!$this->getExtra('auto_height')): ?>
+        $('#review-content .slider li').each(function (index, el) {
+            var _this = $(el);
+            _this.find('.image').height($('#review-content').outerHeight() - 10);
+        });
+        <?php endif; ?>
+        $('#review-content').hover(function () {
+            $('.bx-controls-direction').fadeIn();
+        }, function () {
+            $('.bx-controls-direction').fadeOut();
+        });
+        $('.slider').bxSlider({
+            mode: 'fade',
+            infiniteLoop: true,
+            speed: 1000,
+            auto: true,
+            controls: true,
+            pager: false
+        });
+    });
+</script>
+<style type="text/css">
+    #review {
+        margin-left: 15%;
+    }
+
+    .clickable {
+        cursor: pointer;
+    }
+
+    #review-content {
+        background-color: white;
+    }
+
+    #review-content h2.title {
+        padding: 8px 11px;
+        background-color: #<?php echo $this->getExtra('title_background') ?>;
+        text-align: center;
+        color: #<?php echo $this->getExtra('title_color') ?>;
+        font-weight: bold;
+        font-size: 12px;
+        float: left;
+        position: absolute;
+        top: 5px;
+        opacity: 0.7;
+        left: 5px;
+    }
+
+    #review-content img#product-image {
+        width: 100%;
+        height: 95%;
+    }
+
+    #review-content .content {
+        height: 95%;
+    }
+
+    #review-content .content .image {
+        height: 100%;
+    }
+
+    #review-content .content .image.clickable {
+        margin-bottom: 5px;
+        /*box-shadow: 0px 1px 4px #FF8400;*/
+        position: relative;
+    }
+
+    #review-content .content {
+        padding: 10px 15px;
+    }
+
+    #review-content .addto {
+        position: absolute;
+        bottom: 7px;
+        left: 0;
+        width: 100%;
+    }
+
+
+
+    #review-content .description p {
+        color: #<?php echo $this->getExtra('description_color') ?>;
+        font-size: 13px;
+    }
+
+    #review-content .addto {
+        background: transparent;
+    }
+
+    #review-content .addto .price {
+        float: left;
+        font-size: 20px;
+        color: #<?php echo $this->getExtra('price_color') ?>;
+        font-weight: bold;
+        margin: 18px 5px 0px;
+        max-width: 55%;
+    }
+
+    #review-content .addto .price .old-price {
+        display: inline-block;
+        width: 45%;
+        font-size: 70%;
+        color: gray;
+        text-decoration: line-through;
+    }
+
+    #review-content .addto .price .special-offer {
+        display: inline-block;
+        width: 45%;
+        font-size: 70%;
+        padding-left: 5px;
+        color: #<?php echo $this->getExtra('price_color') ?>;
+    }
+    #review-content .button-buy {
+        float: right;
+        margin: 10px 0px;
+        opacity: 0.9;
+        margin-right: 5px;
+    }
+    .widget-button {
+        float: right;
+        background-color: #<?php echo $this->getExtra('button_color') ?>;
+        padding: 8px 12px;
+        text-decoration: none;
+        border-radius: 5px;
+        color: #<?php echo $this->getExtra('button_text_color') ?>;
+        text-transform: uppercase;
+        opacity: 0.7;
+    }
+
+    .widget-button:hover {
+        opacity: 1;
+        text-decoration: none;
+    }
+
+    .bx-viewport {
+        background-color: #<?php echo $this->getExtra('background_color') ?> !important;
+    }
+
+    .bx-wrapper .bx-controls-direction a {
+        opacity: 0.8;
+    }
+
+    #review-content .bx-wrapper .bx-viewport {
+        border: none;
+        box-shadow: none;
+        left: 0;
+    }
+
+    #review-content .bx-wrapper {
+        position: static;
+    }
+
+    #review-content .bx-controls-direction {
+        display: none
+    }
+</style>

@@ -1,0 +1,314 @@
+<?php
+$model = Mage::registry('productwidget_data');
+?>
+    <div style="min-height:470px;">
+        <form action="<?php echo $this->getFormUrl() ?>" id="widgetform" method="post" enctype="multipart/form-data">
+            <div class="form-center">
+                <input name="form_key" type="hidden"
+                       value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+                <input type="hidden" id="store_id" name="store_id"
+                       value="<?php echo $model->getStoreId() ?>"/>
+                <input type="hidden" id="website_type" name="widget_type"
+                       value="<?php echo $model->getWidgetType() ?>"/>
+                <input type="hidden" id="widget_id" name="id" value="<?php echo $model->getId() ?>"/>
+                <table class="form-list left" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td class="label"><label for="widget_name"><?php echo $this->__('Widget Name') ?><span
+                                    class="required">*</span></label></td>
+                        <td class="value"><input type="text" value="<?php echo $model->getWidgetName() ?>"
+                                                 id="widget_name" name="widget_name" class="text"/></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="product_sku"><?php echo $this->__('Product SKU') ?><span
+                                    class="required">*</span></label></td>
+                        <td class="value"><input type="text" class="text required-entry" id="product_sku"
+                                                 name="product_sku">
+
+                            <p class="note"><?php echo $this->__("You can search by product name or SKU. You can also choose many products, seperate them by comma (,)
+						Example: abc123,od32.") ?> </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="widget_link"><?php echo $this->__("Widget Link") ?></label></td>
+                        <td class="value">
+                            <select name="widget_link" id="widget_link">
+                                <?php foreach ($this->getButtonLinks() as $key => $value): ?>
+                                    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                <?php endforeach ?>
+                                <option value="custom"><?php echo $this->__('Custom Link') ?></option>
+                            </select>
+                            <br>
+
+                            <div class="widget-link-option" style="display:none;">
+                                <input type="text" value="<?php echo Mage::getUrl() ?>" id="widget_link_custom"
+                                       name="widget_link_custom" class="text"/>
+
+                                <p class="note"><?php echo $this->__('Please use absolute link here. <br/>Example : http://www.magestore.com/') ?></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><h3 class="fieldset-title"><?php echo $this->__("Design Settings") ?></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="design"><?php echo $this->__('Widget Design') ?></label></td>
+                        <td class="value">
+                            <select name="design" id="design">
+                                <option selected value="1"><?php echo $this->__('Design 1') ?></option>
+                                <option value="2"><?php echo $this->__('Design 2') ?></option>
+                                <option value="3"><?php echo $this->__('Design 3') ?></option>
+                                <option value="4"><?php echo $this->__('Design 4') ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="size"><?php echo $this->__('Widget Size') ?></label></td>
+                        <td class="value">
+                            <select name="size" id="size">
+                                <option selected value="300_250">300x250</option>
+                                <option value="336_280">336x280</option>
+                                <!-- <option value="300_600">300x600</option> -->
+                                <option value="240_400">240x400</option>
+                                <option value="1"><?php echo $this->__('Custom') ?></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="size-option">
+                        <td class="label"><label for="width"><?php echo $this->__("Width") ?><span
+                                    class="required">*</span></label></td>
+                        <td class="value"><input value="300" type="text" id="width" name="width"
+                                                 class="text validate-number required-entry"/></td>
+                    </tr>
+                    <tr class="size-option">
+                        <td class="label"><label for="height"><?php echo $this->__("Height") ?></label></td>
+                        <td class="value">
+                            <input value="250" type="text" id="height" name="height" class="text"/><br>
+                            <input type="checkbox" name="auto_height" id="auto_height" value="1"><label
+                                for="auto_height"><?php echo $this->__("Auto-set product image height.") ?></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><h3 class="fieldset-title"><?php echo $this->__("Color Settings") ?></h3></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="title_color"><?php echo $this->__('Title color') ?></label></td>
+                        <td class="value"><input value="000000" class="color" name="title_color" id="title_color"></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label
+                                for="title_background"><?php echo $this->__('Title background color') ?></label></td>
+                        <td class="value"><input value="FFFFFF" class="color" name="title_background"
+                                                 id="title_background"></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label for="price_color"><?php echo $this->__('Price color') ?></label></td>
+                        <td class="value"><input value="FF7527" class="color" name="price_color" id="price_color"></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label
+                                for="description_color"><?php echo $this->__('Short description color') ?></label></td>
+                        <td class="value">
+                            <input value="8E8E8E" class="color" name="description_color" id="description_color"><br>
+                            <input type="checkbox" name="hide_description" id="hide_description" value="1"><label
+                                for="hide_description"><?php echo $this->__("Hide short description.") ?></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label"><label
+                                for="background_color"><?php echo $this->__('Background color') ?></label></td>
+                        <td class="value"><input value="FFFFFF" class="color" name="background_color"
+                                                 id="background_color"></td>
+                    </tr>
+                    <tr>
+                        <td class="label"><h3 class="fieldset-title"><?php echo $this->__("Button Settings") ?></h3>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="value">
+                            <input type="radio" checked name="use_button" value="1" id="use_button_true"/>
+                            <label for="use_button_true"><?php echo $this->__("Use button") ?></label>
+                        </td>
+                        <td class="value">
+                            <input type="radio" name="use_button" value="0" id="use_button_false"/>
+                            <label for="use_button_false"><?php echo $this->__("Don't use button") ?></label>
+                        </td>
+                    </tr>
+                    <tr class="button-option">
+                        <td class="label"><label for="button_text"><?php echo $this->__('Button text') ?></label></td>
+                        <td class="value"><input type="text" name="button_text" id="button_text"></td>
+                    </tr>
+                    <tr class="button-option">
+                        <td class="label"><label for="button_color"><?php echo $this->__('Button color') ?></label></td>
+                        <td class="value"><input value="FF7527" class="color" name="button_color" id="button_color">
+                        </td>
+                    </tr>
+                    <tr class="button-option">
+                        <td class="label"><label
+                                for="button_text_color"><?php echo $this->__('Button text color') ?></label></td>
+                        <td class="value"><input value="FFFFFF" type="text" class="color" name="button_text_color"
+                                                 id="button_text_color"></td>
+                    </tr>
+                    <tr class="button-option">
+                        <td class="label"><label for="button_link"><?php echo $this->__('Button link') ?></label></td>
+                        <td class="value">
+                            <select name="button_link" id="button_link">
+                                <?php foreach ($this->getButtonLinks() as $key => $value): ?>
+                                    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="left preview-product">
+                    <?php echo $this->getChildHtml('review') ?>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript">
+        review = j('#review');
+
+        widgetForm = new varienForm('widgetform', '');
+
+        var getReview = function () {
+            if (!widgetForm.validate())
+                return;
+            var iframe = j('#review iframe');
+            var url = '<?php echo $this->getUrl("productwidget/widget/backendView") ?>';
+            iframe.attr({
+                src: url + '?backend=1&' + j('#widgetform').serialize(),
+                style: "width:" + j('#widgetform #width').val() + "px;height:" + j('#widgetform #height').val() + "px;"
+            });
+        };
+        j('#widgetform input,select').each(function (index, e) {
+            if (['widget_name'].indexOf(e.id) > -1)
+                return;
+            j(e).blur(function (event) {
+                getReview();
+            });
+            j(e).change(function (event) {
+                setTimeout(getReview, 1000);
+            });
+        });
+
+        j("#product_sku").autocomplete({
+            source: function (request, response) {
+                var inputData = request.term;
+                var inputArray = inputData.split(',');
+                var keyword;
+                keyword = inputArray[inputArray.length - 1];
+                j.ajax({
+                    url: '<?php echo $this->getUrl("*/*/autoComplete");?>',
+                    data: {
+                        q: keyword,
+                        wid: j('#store_id').val()
+                    },
+                    success: function (data) {
+                        data = j.parseJSON(data);
+                        response(data);
+                    }
+                });
+            },
+            minLength: 1,
+            focus: function (event, ui) {
+                return false;
+            },
+            select: function (event, ui) {
+                oldValue = j(this).prop('value');
+                oldValueArray = oldValue.split(',');
+                oldValueArray[oldValueArray.length - 1] = ui.item.value;
+                var result = oldValueArray.join() + ',';
+                j(this).val(result);
+                return false;
+            },
+            open: function () {
+                j(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            close: function () {
+                j(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+
+        j('#widget_link').change(function (event) {
+            var value = j(this).val();
+            if (value == 'custom') {
+                j('.widget-link-option').show();
+            } else {
+                j('.widget-link-option').hide();
+            }
+        });
+
+        j('#size').change(function (event) {
+            var size = j(this).val();
+            if (size == '1') {
+                j('.size-option').show();
+            } else {
+                var sizeArray = size.split('_');
+                j('.size-option').hide();
+                j('#width').val(sizeArray[0]);
+                j('#height').val(sizeArray[1]);
+            }
+        });
+        j('#use_button_false').click(function (event) {
+            j('.button-option').hide();
+        });
+        j('#use_button_true').click(function (event) {
+            j('.button-option').show();
+        });
+    </script>
+    <!-- show generated code  -->
+<?php if ($model->getWidgetId()): ?>
+    <script>
+        j(document).ready(function () {
+            setTimeout(getReview, 1000);
+        });
+        (function () {
+            var data = '<?php echo $this->getCurrentData() ?>';
+            if (data) {
+                data = j.parseJSON('<?php echo $this->getCurrentData() ?>');
+            }
+            for (i in data) {
+                if (i == 'id')continue;
+                if (i == 'widget_name')continue;
+                if (typeof(document.forms.widgetform.elements[i]) != 'undefined')
+                    document.forms.widgetform.elements[i].value = data[i];
+            }
+            if (typeof (data.hide_description) != 'undefined')
+                j('#hide_description').prop('checked', true);
+            if (typeof (data.auto_height) != 'undefined')
+                j('#auto_height').prop('checked', true);
+            if (j('#size').val() != 1) {
+                j('.size-option').hide();
+            } else {
+                j('.size-option').show();
+            }
+            if (j('#widget_link').val() == 'custom')
+                j('.widget-link-option').show();
+            if (j('#use_button_false').prop('checked'))
+                j('.button-option').hide();
+            window.getReview();
+        }());
+    </script>
+    <?php if (Mage::registry('back') == 'generate'): ?>
+        <?php $url = $this->getUrl('*/*/showGenerateCode') ?>
+        <script>
+            (function () {
+                var id = $('widget_id').value;
+                new Ajax.Request('<?php echo $url ?>', {
+                    method: 'post',
+                    parameters: {
+                        form_key: FORM_KEY,
+                        id: id
+                    },
+                    onComplete: function (xhr) {
+                        TINY.box.show('');
+                        $('tinycontent').innerHTML = xhr.responseText;
+                    }
+                });
+            }());
+        </script>
+    <?php endif ?>
+<?php endif ?>

@@ -1,0 +1,121 @@
+td, th {
+    vertical-align: top
+}
+address, h1, h2, h3, h4, p {
+    margin-bottom: 5px;
+}
+
+*, legend {
+    margin: 0;
+    padding: 0
+}
+
+*, legend, td, th {
+    padding: 0
+}
+
+body {
+    color: #2f2f2f;
+    /*font: 12px/1.5em Arial, Helvetica, sans-serif*/
+}
+
+address, cite {
+    font-style: normal
+}
+
+a {
+    color: #ea7601;
+    text-decoration: underline
+}
+
+a img, fieldset {
+    border: 0
+}
+
+:focus {
+    outline: 0
+}
+
+h1, h2, h3, h4 {
+    line-height: 1.4em
+}
+
+h2 {
+    font-size: 1.7em
+}
+
+h3 {
+    color: #253033;
+    font-size: 1.25em
+}
+
+h4, h5 {
+    font-size: 1.05em
+}
+
+h4 {
+    margin-bottom: .6em;
+    color: #494848
+}
+
+h6 {
+    font-size: 1em
+}
+
+h1 a, h1 a:hover, h2 a, h2 a:hover, h3 a, h3 a:hover, h4 a, h4 a:hover {
+    font-weight: 400
+}
+
+th {
+    text-align: left
+}
+
+cite {
+    font-size: 10px
+}
+
+q:after, q:before {
+    content: ''
+}
+
+form {
+    display: inline
+}
+
+legend {
+    display: none;
+    display: block !important;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    width: 0;
+    visibility: hidden
+}
+
+label {
+    color: #333
+}
+
+input, select {
+    vertical-align: middle
+}
+
+textarea {
+    overflow: auto
+}
+
+ol, ul {
+    list-style: none
+}
+
+dt {
+    display: block
+}
+
+small {
+    font-size: .9em
+}
+
+big {
+    font-size: 1.25em
+}

@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magestore
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magestore
+ * @package     Magestore_ProductWidget
+ * @copyright   Copyright (c) 2015 Magestore (http://www.magestore.com/)
+ * @license     http://www.magestore.com/license-agreement.html
+ */
+-->
+<config>
+    <modules>
+        <Magestore_ProductWidget>
+            <version>0.1.1</version>
+        </Magestore_ProductWidget>
+    </modules>
+    <frontend>
+        <routers>
+            <productwidget>
+                <use>standard</use>
+                <args>
+                    <module>Magestore_ProductWidget</module>
+                    <frontName>productwidget</frontName>
+                </args>
+            </productwidget>
+        </routers>
+        <layout>
+            <updates>
+                <productwidget>
+                    <file>productwidget.xml</file>
+                </productwidget>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Magestore_ProductWidget>
+                    <files>
+                        <default>Magestore_ProductWidget.csv</default>
+                    </files>
+                </Magestore_ProductWidget>
+            </modules>
+        </translate>
+    </frontend>
+    <admin>
+        <routers>
+            <!-- <productwidgetadmin>
+                <use>admin</use>
+                <args>
+                    <module>Magestore_ProductWidget</module>
+                    <frontName>productwidgetadmin</frontName>
+                </args>
+            </productwidgetadmin> -->
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Magestore_ProductWidget after="Mage_Adminhtml">Magestore_ProductWidget_Adminhtml</Magestore_ProductWidget>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <productwidget>
+                    <file>productwidget.xml</file>
+                </productwidget>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Magestore_ProductWidget>
+                    <files>
+                        <default>Magestore_ProductWidget.csv</default>
+                    </files>
+                </Magestore_ProductWidget>
+            </modules>
+        </translate>
+    </adminhtml>   
+    <global>
+        <models>
+            <productwidget>
+                <class>Magestore_ProductWidget_Model</class>
+                <resourceModel>productwidget_mysql4</resourceModel>
+            </productwidget>
+            <productwidget_mysql4>
+                <class>Magestore_ProductWidget_Model_Mysql4</class>
+                <entities>
+                    <widget>
+                        <table>productwidget_widget</table>
+                    </widget>
+                    <action>
+                        <table>productwidget_action</table>
+                    </action>
+                </entities>
+            </productwidget_mysql4>
+        </models>
+        <resources>
+            <productwidget_setup>
+                <setup>
+                    <module>Magestore_ProductWidget</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </productwidget_setup>
+            <productwidget_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </productwidget_write>
+            <productwidget_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </productwidget_read>
+        </resources>
+        <blocks>
+            <productwidget>
+                <class>Magestore_ProductWidget_Block</class>
+            </productwidget>
+        </blocks>
+        <helpers>
+            <productwidget>
+                <class>Magestore_ProductWidget_Helper</class>
+            </productwidget>
+        </helpers>
+        <events>
+            <sales_model_service_quote_submit_after>
+                <observers>
+                    <productwidget_observers>
+                        <class>productwidget/observer</class>
+                        <method>quoteSubmitAfter</method>
+                    </productwidget_observers>
+                </observers>
+            </sales_model_service_quote_submit_after>
+        </events>
+    </global>
+    <default>
+        <productwidget>
+            <general>
+                <enable>1</enable>
+                <save_view>1</save_view>
+                <click_time>1</click_time>
+                <delete_action_record>1</delete_action_record>
+            </general>
+            <style>
+                <limit_description></limit_description>
+            </style>
+        </productwidget>
+    </default>
+</config>

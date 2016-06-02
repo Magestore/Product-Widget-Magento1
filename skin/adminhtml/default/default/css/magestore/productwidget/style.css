@@ -1,0 +1,55 @@
+#widgetform .left{
+    float:left;
+}
+#widgetform .right{
+    float:right;
+}
+#widgetform .form-row{
+    clear: both;
+}
+.ui-autocomplete{
+    z-index: 999999;
+}
+.size-option{
+    display: none
+}
+#widgetform table tr td input,
+#widgetform table tr td select{
+    height: 30px;
+    border-radius: 4px;
+    padding: 0px 7px;
+    box-shadow: none;
+    border: 1px solid #ccc;
+}
+#widgetform table tr td input.color,
+#widgetform table tr td input[type="text"]{
+    width: 265px;
+}
+#widgetform .form-center{
+    float: left;
+    width: 97%;
+    background-color: #f8f8f8;
+    padding: 1%;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    display: block;
+    height: auto;
+    margin: 0 auto;
+}
+.preview-product{
+    padding-left: 10%;
+}
+.preview-product .review iframe{
+    border: 1px solid #CCC;
+    background-color: #fff;
+ }
+.widget-link-option{
+    margin-top: 10px;
+}
+#widgetform h3.fieldset-title{
+    cursor: pointer;
+}
+#widgetform #widget_image{border: none;}
+#widgetform .preview-product{overflow: auto; max-width: 45%;}
+#widgetform #review{overflow: auto;max-height: 520px; min-width: 550px;}
+.preview-widget-note{clear: both;font-size: 11px;}

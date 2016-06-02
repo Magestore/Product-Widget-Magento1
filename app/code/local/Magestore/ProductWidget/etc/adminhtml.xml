@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magestore
+ * 
+ * NOTICE OF LICENSE
+ * 
+ * This source file is subject to the Magestore.com license that is
+ * available through the world-wide-web at this URL:
+ * http://www.magestore.com/license-agreement.html
+ * 
+ * DISCLAIMER
+ * 
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ * 
+ * @category    Magestore
+ * @package     Magestore_ProductWidget
+ * @copyright   Copyright (c) 2015 Magestore (http://www.magestore.com/)
+ * @license     http://www.magestore.com/license-agreement.html
+ */
+-->
+<config>
+    <menu>
+        <productwidget module="productwidget" translate="title">
+            <title>Product Widget</title>
+            <sort_order>71</sort_order>
+            <children> 
+                <productwidget module="productwidget" translate="title">
+                    <title>Manage Widgets</title>
+                    <sort_order>0</sort_order>
+                    <action>adminhtml/productwidget_widget</action>
+                </productwidget>
+                <productwidget_transaction module="productwidget" translate="title">
+                    <title>View All Actions</title>
+                    <sort_order>100</sort_order>
+                    <action>adminhtml/productwidget_transaction</action>
+                </productwidget_transaction>
+                <productwidget_report module="productwidget" translate="title">
+                    <title>Reports</title>
+                    <sort_order>200</sort_order>
+                    <children>
+                        <general_report module="productwidget" translate="title">
+                            <title>General Report</title>
+                            <action>adminhtml/productwidget_report/general</action>
+                            <sort_order>100</sort_order>
+                        </general_report>
+                        <widget_report module="productwidget" translate="title">
+                            <title>Report for Widget</title>
+                            <action>adminhtml/productwidget_report/widget</action>
+                            <sort_order>200</sort_order>
+                        </widget_report>
+                        <domain_report module="productwidget" translate="title">
+                            <title>Report for Domain</title>
+                            <action>adminhtml/productwidget_report/domain</action>
+                            <sort_order>300</sort_order>
+                        </domain_report>
+                    </children>
+                </productwidget_report>
+                <settings module="productwidget" translate="title">
+                    <title>Settings</title>
+                    <sort_order>1000</sort_order>
+                    <action>adminhtml/system_config/edit/section/productwidget</action>
+                </settings>
+            </children>
+        </productwidget>
+    </menu>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title> 
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <productwidget module="productwidget" translate="title">
+                                        <title>ProductWidget</title>
+                                        <sort_order>71</sort_order>
+                                    </productwidget>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <productwidget module="productwidget" translate="title">
+                        <title>Product Widget</title>
+                        <sort_order>71</sort_order>
+                        <children>
+                            <productwidget module="productwidget" translate="title">
+                                <title>Manage Widgets</title>
+                                <sort_order>0</sort_order>
+                            </productwidget>
+                            <productwidget_report module="productwidget" translate="title">
+                                <title>Reports</title>
+                                <sort_order>100</sort_order>
+                                <children>
+                                    <general_report module="productwidget" translate="title">
+                                        <title>General Report</title>
+                                        <sort_order>100</sort_order>
+                                    </general_report>
+                                    <widget_report module="productwidget" translate="title">
+                                        <title>Report for Widget</title>
+                                        <sort_order>200</sort_order>
+                                    </widget_report>
+                                    <domain_report module="productwidget" translate="title">
+                                        <title>Report for Domain</title>
+                                        <sort_order>300</sort_order>
+                                    </domain_report>
+                                </children>
+                            </productwidget_report>
+                            <productwidget_transaction module="productwidget" translate="title">
+                                <title>View All Action</title>
+                                <sort_order>200</sort_order>
+                            </productwidget_transaction>
+                            <settings module="productwidget" translate="title">
+                                <title>Settings</title>
+                                <sort_order>1000</sort_order>
+                            </settings>
+                        </children>
+                    </productwidget>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

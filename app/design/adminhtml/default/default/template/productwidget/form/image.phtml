@@ -1,0 +1,214 @@
+<?php 
+$model = Mage::registry('productwidget_data');
+ ?>
+<div style="min-height:470px;">
+	<form  action="<?php echo $this->getFormUrl() ?>" id="widgetform" method="post" enctype="multipart/form-data">
+		<div class="form-center">
+			<input type="hidden" name="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+			<input type="hidden" id="store_id" name="store_id" value="<?php echo $model->getStoreId() ?>" />
+			<input type="hidden" id="website_type" name="widget_type" value="<?php echo $model->getWidgetType() ?>" />
+			<input type="hidden" id="widget_id" name="id" value="<?php echo $model->getId() ?>" />
+			<input type="hidden" id="current_image" name="current_image" value="<?php echo $model->getExtra('widget_image') ?>">
+			<table class="form-list left" cellspacing="0">
+				<tbody>
+					<tr> 
+						<td class="label"><label for="widget_name"><?php echo $this->__('Widget Name') ?><span class="required">*</span></label></td>
+						<td class="value"><input type="text" value="<?php echo $model->getWidgetName() ?>" id="widget_name" name="widget_name" class="text"/></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="size"><?php echo $this->__('Widget Size') ?></label></td>
+						<td class="value">
+							<select name="size" id="size">
+								<option selected value="300_250">300x250</option>
+								<option value="336_280">336x280</option>
+								<option value="300_600">300x600</option>
+								<option value="240_400">240x400</option>
+								<option value="1"><?php echo $this->__('Custom') ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr class="size-option">
+						<td class="label"><label for="width"><?php echo $this->__("Width") ?><span class="required">*</span></label></td>
+						<td class="value"><input value="300" type="text" id="width" name="width" class="text validate-number required-entry"/></td>
+					</tr>
+					<tr class="size-option">
+						<td class="label"><label for="height"><?php echo $this->__("Height") ?><span class="required">*</span></label></td>
+						<td class="value"><input value="250" type="text" id="height" name="height" class="text validate-number required-entry"/></td>
+					</tr>
+					<tr>
+						<td class="label"><label for="widget_link"><?php echo $this->__("Widget Link") ?></label></td>
+						<td class="value">
+							<select name="widget_link" id="widget_link">
+								<option value="custom" ><?php echo $this->__('Custom Link') ?></option>
+								<?php foreach ($this->getButtonLinks() as $key => $value): ?>
+								<option value="<?php echo $key ?>"><?php echo $value ?></option>
+							<?php endforeach ?>
+						</select>
+						<br>
+						<div class="widget-link-option">
+							<input type="text" value="<?php echo Mage::getUrl() ?>" id="widget_link_custom" name="widget_link_custom" class="text" />
+							<p class="note"><?php echo $this->__('Please use absolute link here.<br/> Example : http://www.magestore.com/') ?></p>
+						</div>
+					</td>
+				</tr>
+				<tr class="product-option" style="display:none">
+					<td class="label"><label for="product_sku"><?php echo $this->__('Product SKU') ?><span class="required">*</span></label></td>
+					<td class="value">
+						<input type="text" class="text" id="product_sku" name="product_sku">
+						<p class="note"><?php echo $this->__("You can search by product name or SKU.") ?> </p>
+					</td>
+				</tr>
+				<tr>
+					<td class="label" for="widget_image"><?php echo $this->__('Image') ?></td>
+					<td >
+						<input type="file" name="widget_image" id="widget_image" class="input-file" />
+						<p class="note"><?php echo $this->__("Allowed file types: jpeg, gif, png.") ?> </p>
+						<p class="note"><?php echo $this->__("Save this widget to upload the file.") ?></p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="left preview-product">
+			<?php echo $this->getChildHtml('review') ?>
+		</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	review = j('#review');
+    widgetForm = new varienForm('widgetform', '');
+
+	var getReview = function(){
+		if(!widgetForm.validate())
+			return;
+		var iframe = j('#review iframe');
+		var url ='<?php echo $this->getUrl("productwidget/widget/backendView") ?>';
+		iframe.attr({
+			src :  url+ '?backend=1&' + j('#widgetform').serialize(),
+			width : j('#widgetform #width').val(),
+			height : j('#widgetform #height').val()
+		});
+	};
+	j('#widgetform input,select').each(function(index,e){
+		j(e).blur(function(event) {
+			getReview();
+		});
+		j(e).change(function(event) {
+			setTimeout(getReview,1000);
+		});
+	});
+
+    j("#product_sku").autocomplete({
+    	source: function( request, response ) {
+    		var inputData=request.term;
+    		var inputArray=inputData.split(',');
+    		var keyword;
+    		keyword=inputArray[inputArray.length-1];
+    		j.ajax({
+    			url: '<?php echo $this->getUrl("*/*/autoComplete");?>',
+    			data: {
+    				q: keyword,
+    				wid: j('#store_id').val()
+    			},
+    			success: function( data ) {
+    				data=j.parseJSON(data);
+    				response( data );
+    			}
+    		});
+    	},
+    	minLength: 1,
+    	focus: function( event, ui ) {
+    		return false;
+    	},
+    	select: function( event, ui ) {
+    		// oldValue=j(this).prop('value');
+    		// oldValueArray=oldValue.split(',');
+    		// oldValueArray[oldValueArray.length-1]=ui.item.value;
+    		// var result=oldValueArray.join();
+    		j( this ).val( ui.item.value );
+    		return false;
+    	},
+    	open: function() {
+    		j( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+    	},
+    	close: function() {
+    		j( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+    	}
+    });
+
+	
+	var refineWidgetLinkOption = function(){
+		var value = j('#widget_link').val();
+		if(value == 'custom' ){
+			j('.widget-link-option').show();
+			j('.product-option').hide();
+			j('#product_sku').removeClass('required-entry');
+		}else{
+			j('.widget-link-option').hide();
+			j('.product-option').show(); 
+			j('#product_sku').addClass('required-entry');
+		}
+	}
+	j('#widget_link').change(function(event){
+		refineWidgetLinkOption();
+	});
+
+	j('#size').change(function(event) {
+		var size = j(this).val();
+		if(size == '1'){
+			j('.size-option').show();
+		}else{
+			var sizeArray = size.split('_');
+			j('.size-option').hide();
+			j('#width').val(sizeArray[0]);
+			j('#height').val(sizeArray[1]);
+		}
+	});
+</script>
+
+
+<!-- show generated code  -->
+ <?php if (Mage::registry('productwidget_data')->getWidgetId()): ?>
+ 	<script>
+ 		// load data for editing
+	 	j(document).ready(function() {
+			setTimeout(getReview,1000);
+		});
+	 	(function(){
+	 		var data= '<?php echo $this->getCurrentData() ?>';
+	 		if(data){
+	 			data = j.parseJSON('<?php echo $this->getCurrentData() ?>'); 
+	 		}
+	 		j('#size').val(data.size);
+			j('#width').val(data.width);
+			j('#height').val(data.height);
+	 		if(data.size == '1'){
+	 			j('.size-option').show();
+	 		}
+	 		j('#widget_link').val(data.widget_link);
+	 		j('#widget_link_custom').val(data.widget_link_custom);
+	 		j('#product_sku').val(data.product_sku);
+	 		refineWidgetLinkOption();
+	 		window.getReview();
+	 	}());
+	</script>
+	<?php if (Mage::registry('back') == 'generate'): ?>
+		<?php  $url = $this->getUrl('*/*/showGenerateCode') ?>
+		<script>
+		(function(){
+			var id = $('widget_id').value;
+			new Ajax.Request('<?php echo $url ?>',{
+				method : 'post',
+				parameters : {
+					form_key : FORM_KEY,
+					id : id
+				},
+				onComplete: function(xhr){
+					TINY.box.show('');
+					$('tinycontent').innerHTML = xhr.responseText;
+				}
+			});
+		}());
+		</script>
+	<?php endif ?>
+<?php endif ?>
